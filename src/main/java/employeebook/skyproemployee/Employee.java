@@ -7,12 +7,15 @@ public class Employee {
     private String lastName;
     private int department;
     private int salary;
+    private static int count = 0;
+    private final int id;
 
     public Employee(String firstName, String lastName, int department, int salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
         this.salary = salary;
+        this.id = count++;
     }
 
     public String getFirstName() {
@@ -35,6 +38,9 @@ public class Employee {
         return salary;
     }
 
+    public int getId() {
+        return id;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -56,6 +62,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", department=" + department +
                 ", salary=" + salary +
+                ", id=" + id +
                 '}';
     }
 }

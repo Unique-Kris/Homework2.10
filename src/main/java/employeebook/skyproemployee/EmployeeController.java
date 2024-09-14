@@ -1,12 +1,16 @@
 package employeebook.skyproemployee;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/departments")
 public class EmployeeController {
     private final EmployeeServiceImpl employeeService;
 
@@ -14,23 +18,23 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/add")
-    public Employee addEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    @GetMapping(path = "/max-salary")
+    public Employee getEmployeeWithMaxSalaryOfDepartment(@RequestParam int department) {
+        return employeeService.getEmployeeWithMaxSalaryOfDepartment(department);
     }
 
-    @GetMapping(path = "/find")
-    public Employee findEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+    @GetMapping(path = "/min-salary")
+    public Employee getEmployeeWithMinSalaryOfDepartment(@RequestParam int department) {
+        return employeeService.getEmployeeWithMinSalaryOfDepartment(department);
     }
 
-    @GetMapping(path = "/remove")
-    public Employee removeEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        return employeeService.removeEmployee(firstName, lastName);
-    }
-
-    @GetMapping("/allEmployees")
-    public Collection<Employee> getAllEmployees() {
+    @GetMapping(path = "/all")
+    public Map<Integer, List<Employee>> getAllEmployees() {
         return employeeService.getAllEmployees();
+    }
+
+    @GetMapping(value = "/all", params = {"department"})
+    public Collection<Employee> getDepartmentEmployees(@RequestParam int department) {
+        return employeeService.getDepartmentEmployees(department);
     }
 }
