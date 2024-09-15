@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Collection<Employee> findAll() {
-        return employees;
+        return Collections.unmodifiableCollection(employees);
     }
 
     @Override
