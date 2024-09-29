@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
+import static org.apache.commons.lang3.StringUtils.isAlpha;
+import static org.springframework.util.StringUtils.capitalize;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -21,6 +23,18 @@ public class EmployeeServiceImpl implements EmployeeService {
             new Employee("Roman", "Polyakov", 3, 19000),
             new Employee("Gennadiy", "Polyakov", 2, 32000)
     ));
+
+    @Override
+    public Employee addEmployee(String firstName, String lastName, int department, int salary) {
+        validateNames(firstName, lastName);
+
+        Employee employee = new Employee(capitalize(firstName), capitalize(lastName), department, salary);
+        if (employees.contains(employee)) {
+            throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует!");
+        }
+        employees.add(employee);
+        return employee;
+    }
 
     @Override
     public Employee getEmployeeWithMinSalaryOfDepartment(int department) {
@@ -59,5 +73,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Map<Integer, List<Employee>> getDepartmentEmployeesMap() {
         return Map.of();
+    }
+
+    private void validateNames(String... names) {
+        for (String name : names) {
+            if (!isAlpha(name)) {
+                throw new InvalidNameException(name);
+            }
+        }
     }
 }

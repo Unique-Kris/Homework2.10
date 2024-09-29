@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface EmployeeService {
+    Employee addEmployee(String firstName, String lastName, int department, int salary);
+
     Employee getEmployeeWithMinSalaryOfDepartment(int department);
 
     Employee getEmployeeWithMaxSalaryOfDepartment(int department);
